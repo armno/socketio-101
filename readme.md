@@ -51,3 +51,10 @@ $ npm start
 - Once a connection is opened, Server and Client can sent/receive data between each other at anytime.
 
 02/12/2016
+
+-----
+
+## Homeworks
+
+- created another event named `system` to display system message (when a user logs in/logs out).
+- client: listen to `system` event and add a special CSS class name for the message.

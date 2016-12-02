@@ -13,6 +13,12 @@
 	#messages { list-style-type: none; margin: 0; padding: 0; }
 	#messages li { padding: 5px 10px; }
 	#messages li:nth-child(odd) { background: #eee; }
+	#messages li.system-message {
+		background: none;
+		font-style: italic;
+		color: #cdcdcd;
+		font-size: 0.9em;
+	}
 	</style>
 </head>
 <body>
@@ -31,6 +37,7 @@
 				.addEventListener('submit', submitMessage);
 
 			socket.on('chat message', appendNewMessage);
+			socket.on('system', appendSystemMessage);
 
 			function submitMessage(e) {
 				e.preventDefault();
@@ -39,10 +46,18 @@
 				$m.value = '';
 			}
 
-			function appendNewMessage(msg) {
+			function appendNewMessage(msg, className) {
+				console.log(className);
 				const newMessage = document.createElement('li');
 				newMessage.innerText = msg;
+				if (className) {
+					newMessage.classList.add(className);
+				}
 				document.querySelector('#messages').appendChild(newMessage);
+			}
+
+			function appendSystemMessage(msg) {
+				appendNewMessage(msg, 'system-message');
 			}
 
 		})();
