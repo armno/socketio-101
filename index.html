@@ -8,7 +8,13 @@
 	* { margin: 0; padding: 0; box-sizing: border-box; }
 	body { font: 19px sans-serif; }
 	form { background: #ccc; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-	form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; font-size: 19px; }
+	input.alias {
+		width: 20%;
+		font-size: 19px;
+		border: 0;
+		padding: 10px;
+	}
+	form input.message { border: 0; padding: 10px; width: 60%; margin-right: .5%; font-size: 19px; }
 	form button { width: 18%; background: salmon; border: none; padding: 10px; font-size: 19px; }
 	#messages { list-style-type: none; margin: 0; padding: 0; }
 	#messages li { padding: 5px 10px; }
@@ -19,13 +25,19 @@
 		color: #cdcdcd;
 		font-size: 0.9em;
 	}
+	.alias {
+		font-weight: bold;
+		margin-right: 5px;
+		display: inline-block;
+	}
 	</style>
 </head>
 <body>
 	<ul id="messages">
 	</ul>
 	<form action="" id="messageForm">
-		<input id="m" type="text" name="m" autocomplete="off">
+		<input id="alias" type="text" name="alias" autocomplete="off" class="alias" placeholder="alias">
+		<input id="m" type="text" name="m" autocomplete="off" class="message" placeholder="message">
 		<button>Send</button>
 	</form>
 	<script src="/socket.io/socket.io.js"></script>
@@ -42,14 +54,28 @@
 			function submitMessage(e) {
 				e.preventDefault();
 				const $m = document.querySelector('#m');
-				socket.emit('chat message', $m.value);
+				socket.emit('chat message', {
+					alias: document.querySelector('#alias').value,
+					message: $m.value
+				});
 				$m.value = '';
 			}
 
 			function appendNewMessage(msg, className) {
-				console.log(className);
 				const newMessage = document.createElement('li');
-				newMessage.innerText = msg;
+				const name = document.createElement('span');
+				const message = document.createElement('span');
+
+				message.innerText = msg.message;
+
+				if (msg.alias) {
+					name.classList.add('alias');
+					name.innerText = msg.alias + ': ';
+					newMessage.appendChild(name);
+				}
+
+				newMessage.appendChild(message);
+
 				if (className) {
 					newMessage.classList.add(className);
 				}
