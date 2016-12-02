@@ -8,12 +8,8 @@
 	* { margin: 0; padding: 0; box-sizing: border-box; }
 	body { font: 19px sans-serif; }
 	form { background: #ccc; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-	form input { border: 0; padding: 10px; width: 80%; margin-right: .5%;
-		font-size: 19px;
-	}
-	form button { width: 18%; background: salmon; border: none; padding: 10px;
-		font-size: 19px;
-	}
+	form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; font-size: 19px; }
+	form button { width: 18%; background: salmon; border: none; padding: 10px; font-size: 19px; }
 	#messages { list-style-type: none; margin: 0; padding: 0; }
 	#messages li { padding: 5px 10px; }
 	#messages li:nth-child(odd) { background: #eee; }
@@ -28,15 +24,28 @@
 	</form>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		const socket = io();
+		(function() {
+			const socket = io();
 
-		document.querySelector('#messageForm')
-			.addEventListener('submit', function(e) {
+			document.querySelector('#messageForm')
+				.addEventListener('submit', submitMessage);
+
+			socket.on('chat message', appendNewMessage);
+
+			function submitMessage(e) {
 				e.preventDefault();
 				const $m = document.querySelector('#m');
 				socket.emit('chat message', $m.value);
 				$m.value = '';
-			});
+			}
+
+			function appendNewMessage(msg) {
+				const newMessage = document.createElement('li');
+				newMessage.innerText = msg;
+				document.querySelector('#messages').appendChild(newMessage);
+			}
+
+		})();
 	</script>
 </body>
 </html>
