@@ -32,17 +32,26 @@
 		margin-right: 5px;
 		display: inline-block;
 	}
+
+	.input-alias,
+	.input-message {
+		margin-right: 12px;
+	}
+
+	.input-alias {
+		width: 30%;
+	}
 	</style>
 </head>
 <body>
 	<ul id="messages">
 	</ul>
 	<form action="" id="messageForm">
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+		<div class="input-alias mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 			<input id="alias" type="text" name="alias" autocomplete="off" class="alias mdl-textfield__input">
 			<label for="alias" class="mdl-textfield__label">Alias</label>
 		</div>
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+		<div class="input-message mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 			<input id="m" type="text" name="m" autocomplete="off" class="message mdl-textfield__input">
 			<label for="m" class="mdl-textfield__label">Your Message</label>
 		</div>
