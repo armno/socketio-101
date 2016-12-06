@@ -4,12 +4,21 @@
 	<meta charset="UTF-8">
 	<title>Get Started with SocketIO 101</title>
 	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>	
 	<style>
-	* { margin: 0; padding: 0; box-sizing: border-box; }
-	body { font: 19px sans-serif; }
-	form { background: #ccc; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-	form input { border: 0; padding: 10px; width: 80%; margin-right: .5%; font-size: 19px; }
-	form button { width: 18%; background: salmon; border: none; padding: 10px; font-size: 19px; }
+	#messageForm {
+		padding: 0 16px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: baseline;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
 	#messages { list-style-type: none; margin: 0; padding: 0; }
 	#messages li { padding: 5px 10px; }
 	#messages li:nth-child(odd) { background: #eee; }
@@ -17,7 +26,6 @@
 		background: none;
 		font-style: italic;
 		color: #cdcdcd;
-		font-size: 0.9em;
 	}
 	</style>
 </head>
@@ -25,8 +33,13 @@
 	<ul id="messages">
 	</ul>
 	<form action="" id="messageForm">
-		<input id="m" type="text" name="m" autocomplete="off">
-		<button>Send</button>
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			<input id="m" type="text" name="m" autocomplete="off" class="mdl-textfield__input">
+			<label for="m" class="mdl-textfield__label">Your message ...</label>
+		</div>
+		
+		<button class="mdl-button mdl-button--raised mdl-ripple-effect mdl-button--accent
+			mdl-js-button mdl-js-ripple-effect">Send</button>
 	</form>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
