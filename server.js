@@ -20,7 +20,7 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('chat message', (msg) => {
-		console.log(`received: ${msg}`);
+		console.log(`received: "${msg.message}" from ${msg.alias}.`);
 		io.emit('chat message', msg);
 	});
 });
