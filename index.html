@@ -27,6 +27,11 @@
 		font-style: italic;
 		color: #cdcdcd;
 	}
+	.alias {
+		font-weight: bold;
+		margin-right: 5px;
+		display: inline-block;
+	}
 	</style>
 </head>
 <body>
@@ -34,12 +39,17 @@
 	</ul>
 	<form action="" id="messageForm">
 		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-			<input id="m" type="text" name="m" autocomplete="off" class="mdl-textfield__input">
-			<label for="m" class="mdl-textfield__label">Your message ...</label>
+			<input id="alias" type="text" name="alias" autocomplete="off" class="alias mdl-textfield__input">
+			<label for="alias" class="mdl-textfield__label">Alias</label>
 		</div>
-		
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+			<input id="m" type="text" name="m" autocomplete="off" class="message mdl-textfield__input">
+			<label for="m" class="mdl-textfield__label">Your Message</label>
+		</div>
 		<button class="mdl-button mdl-button--raised mdl-ripple-effect mdl-button--accent
-			mdl-js-button mdl-js-ripple-effect">Send</button>
+			mdl-js-button mdl-js-ripple-effect">
+			Send
+		</button>
 	</form>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
@@ -55,14 +65,28 @@
 			function submitMessage(e) {
 				e.preventDefault();
 				const $m = document.querySelector('#m');
-				socket.emit('chat message', $m.value);
+				socket.emit('chat message', {
+					alias: document.querySelector('#alias').value,
+					message: $m.value
+				});
 				$m.value = '';
 			}
 
 			function appendNewMessage(msg, className) {
-				console.log(className);
 				const newMessage = document.createElement('li');
-				newMessage.innerText = msg;
+				const name = document.createElement('span');
+				const message = document.createElement('span');
+
+				message.innerText = msg.message;
+
+				if (msg.alias) {
+					name.classList.add('alias');
+					name.innerText = msg.alias + ': ';
+					newMessage.appendChild(name);
+				}
+
+				newMessage.appendChild(message);
+
 				if (className) {
 					newMessage.classList.add(className);
 				}
